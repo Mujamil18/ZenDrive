@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Fetch Files from Zoho WorkDrive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Files in Zoho WorkDrive Folder</h2>
+<button onclick="fetchFiles()">Load Files</button>
+
+<div id="files-list">
+</div>
+
+<script>
+    function fetchFiles() {
+        // Make a request to the FetchFiles servlet
+        fetch('http://localhost:2948/WorkdrivePlusPlus/folder')
+            .then(response => response.json())
+            .then(data => {
+                const filesListDiv = document.getElementById('files-list');
+                filesListDiv.innerHTML = ''; // Clear previous results
+
+                if (data && data.files.length > 0) {
+                    // Create a table to display the files
+                    let tableHTML = '<table>';
+                    tableHTML += '<tr><th>File Name</th><th>File Type</th><th>File ID</th></tr>';
+
+                    // Loop through the files and create rows in the table
+                    data.files.forEach(file => {
+                        tableHTML += `<tr>
+                                          <td>${file.name}</td>
+                                          <td>${file.type}</td>
+                                          <td>${file.id}</td>
+                                       </tr>`;
+                    });
+                    tableHTML += '</table>';
+                    filesListDiv.innerHTML = tableHTML;
+                } else {
+                    filesListDiv.innerHTML = '<p>No files found.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching files:', error);
+                document.getElementById('files-list').innerHTML = '<p>Error fetching files. Please try again.</p>';
+            });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ChatBot</title>
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        background-color: #f4f4f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        height: 80vh;
+        border-radius: 12px;
+        background-color: white;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background-color: #4a90e2;
+        padding: 16px;
+        text-align: center;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        position: relative;
+    }
+
+    .header .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        font-size: 25px;
+        cursor: pointer;
+        color: white;
+        transition: color 0.3s ease;
+    }
+
+    .header .close-btn:hover {
+        color: #e74c3c;
+    }
+
+    .chat-box {
+        padding: 16px;
+        overflow-y: auto;
+        height: calc(100% - 120px);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .message {
+    display: flex;
+    align-items: flex-start;
+    max-width: 70%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 18px;
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+    word-wrap: break-word;
+    overflow: hidden;  /* Prevent overflow */
+}
+
+.message.sent {
+    background-color: #d1c4e9;
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.message.received {
+    background-color: #f1f1f1;
+    margin-right: auto;
+}
+
+.message .profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.message.sent .profile-img {
+    left: 100%; /* Moves the profile image to the right of the message */
+    margin-left: 10px;
+}
+
+.message.received .profile-img {
+    right: 100%; /* Moves the profile image to the left of the message */
+    margin-right: 10px;
+}
+
+
+    .message .profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Profile image positioning */
+    .message.sent .profile-img {
+        left: 100%; /* Moves the profile image to the right of the message */
+        margin-left: 10px;
+    }
+
+    .message.received .profile-img {
+        right: 100%; /* Moves the profile image to the left of the message */
+        margin-right: 10px;
+    }
+
+    .searchBar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .searchBar input {
+        width: 85%;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 2px solid #ccc;
+        outline: none;
+        transition: border 0.3s ease;
+    }
+
+    .searchBar input:focus {
+        border-color: #4a90e2;
+    }
+
+    .send-btn {
+        background-color: #4a90e2;
+        padding: 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .send-btn:hover {
+        background-color: #357ABD;
+    }
+
+    .send-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .clear {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .clear:hover {
+        background-color: #c0392b;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+<body>
+<div class="container">
+    <div class="header">
+        ChatBot
+        <span class="close-btn" id="closeBtn">&times;</span>
+    </div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="searchBar">
+        <input id="inputText" placeholder="Type a message..." type="text"/>
+        <span class="send-btn" id="sendButton">
+            <img alt="send-icon" src="https://cdn-icons-png.flaticon.com/512/60/60525.png">
+        </span>
+    </div>
+    <button class="clear" id="clearMemory">Clear Memory</button>
+</div>
+
+<script>
+    const sendButton = document.getElementById("sendButton");
+    const inputText = document.getElementById("inputText");
+    const chatBox = document.getElementById("chatBox");
+    const clearMemoryButton = document.getElementById("clearMemory");
+    const closeBtn = document.getElementById("closeBtn");
+
+    // Simulated profile images for sent and received messages
+    const profiles = {
+        sent: 'https://i.pinimg.com/originals/95/a0/71/95a07101963bb98e49014b6b71b9d9a2.jpg',
+        received: 'https://i.pinimg.com/originals/79/32/22/793222764d6407e70ad9d0904fe9909b.jpg'
+    };
+
+    // Clear Memory button
+    clearMemoryButton.addEventListener("click", function() {
+        chatBox.innerHTML = ''; // Clear chat history
+    });
+
+    // Send Button functionality
+    sendButton.addEventListener("click", function() {
+        const message = inputText.value.trim();
+
+        if (message) {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message", "sent");
+
+            const profileImg = document.createElement("img");
+            profileImg.src = profiles.sent;
+            profileImg.classList.add("profile-img");
+
+            const textElement = document.createElement("span");
+            textElement.textContent = message;
+
+            messageElement.appendChild(textElement);
+            messageElement.appendChild(profileImg); // Profile image will be on the right
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            inputText.value = "";
+
+            // POST request to the server
+            fetch('/WorkdrivePlusPlus/bot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.text())
+            .then(data => {
+                const replyMessage = data;
+                const replyElement = document.createElement("div");
+                replyElement.classList.add("message", "received");
+
+                const replyProfileImg = document.createElement("img");
+                replyProfileImg.src = profiles.received;
+                replyProfileImg.classList.add("profile-img");
+
+                const replyTextElement = document.createElement("span");
+                replyTextElement.textContent = replyMessage;
+
+                replyElement.appendChild(replyProfileImg); // Profile image on the left
+                replyElement.appendChild(replyTextElement);
+                chatBox.appendChild(replyElement);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const errorMessage = document.createElement("div");
+                errorMessage.classList.add("message", "received");
+                errorMessage.textContent = "Sorry, there was an error processing your request.";
+                chatBox.appendChild(errorMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+        }
+    });
+
+    // Triggering send on Enter key press
+    inputText.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            sendButton.click();
+        }
+    });
+
+    // Close button (can be customized to just hide the chat if desired)
+    closeBtn.addEventListener("click", function() {
+        window.close(); // Or you can just hide the container
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Document</title>
+    <link href="login.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Kalnia+Glaze:wght@100..700&family=Libre+Baskerville&family=Liter&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Stylish&family=Tangerine:wght@400;700&display=swap"
+          rel="stylesheet">
+</head>
+<style>
+    *{
+      padding:0;
+      margin:0;
+      box-sizing: border-box;
+  }
+  body{
+      height: 100vh;
+      background-image: url("10ndh.jpg");
+      background-position: center;
+      background-size:cover;
+      background-repeat: no-repeat;
+      display:flex;
+      justify-content: center;
+      font-family: "Newsreader", serif;
+
+  }
+  .wholebox{
+      border:6px solid white;
+      width:85%;
+      height: 90%;
+      margin: auto;
+      border-radius: 1em;
+      display: flex;
+
+  }
+  .inBox{
+      width:50%;
+  }
+  .box1{
+       border-top:9px solid white;
+       border-bottom:9px solid white;
+       border-left:9px solid white;
+       border-top-left-radius:0.4em;
+        border-bottom-left-radius:0.4em;
+        /* border:none; */
+       /* border-top-right-radius:0.8em;
+        border-bottom-right-radius:0.8em;   */
+        display: flex;
+        flex-direction:column ;
+        justify-content:end ;
+        /* align-items: flex-end; */
+        margin-left:0;
+
+  }
+  .box2{
+      /* border-top-right-radius:0.8em; */
+      /* border-bottom-right-radius:0.8em; */
+      border-left: 7px solid white;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  }
+
+  .ask{
+
+      margin-left:1em;
+      margin-bottom: 2em;
+      font-size: 4rem;
+      color: wheat;
+  }
+  .logo{
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap:0.5em;
+      justify-content: center;
+      margin-top:1em;
+
+  }
+  .img-logo{
+      width:9%;
+      /* border: 1px solid red; */
+  }
+  .loginPage{
+      /* border:1px solid red; */
+      height: 600px;
+      margin-bottom:10em;
+      display: flex;
+      flex-direction: column;
+      justify-content:center;
+      align-items: center;
+      gap:5em;
+  }
+  .auth{
+      display: block;
+   font-size: 1.5rem;
+   margin-top:0.4em;
+  }
+  .inputboxes{
+      height: 200px;
+      /* border:1px solid red */
+
+
+  }
+  .userName{
+
+      width:400px;
+      font-size: 1rem;
+      padding:0.7em 1em;
+      border:none;
+      outline: none;
+      background-color: #f0f1f3;
+      border-radius: 0.3em;
+
+  }
+  .welcome{
+      font-size: 2.5rem;
+      margin-bottom: 0.3em;
+  }
+  .enter{
+      text-align: center;
+      font-size: 1rem;
+  }
+  .checkbox{
+
+  }
+  .remember{
+      display: flex;
+      justify-content: space-between;
+      width:400px;
+      margin-top: 1em;
+  }
+  .submit{
+      padding:0.7em 3em;
+      font-size: 1.3rem;
+      border: none;
+      background-color:#e6903f ;
+      color:white;
+      border-radius:0.5em ;
+  }
+</style>
+
+<body>
+<section class="wholebox">
+    <div class="box1 inBox">
+        <div class="askBox">
+            <h1 class="ask">
+                Ask </br>Everything  </br>Here.....
+            </h1>
+        </div>
+    </div>
+    <div class="box2 inBox">
+        <div class="logo">
+            <img class="img-logo" src="logoWD1.png">
+            <h1>Drox</h1>
+        </div>
+        <div class="loginPage">
+            <div>
+                <h1 class="welcome">WELCOME TO DROX</h1>
+                <p class="enter">Enter your email and password to access your account</p>
+            </div>
+
+            <div class="inputboxes">
+                <form action="loginWorkdrive" method="POST">
+                    <label class="auth" for="user">username</label></br>
+                    <input class="userName" id="user" name="username" type="text"></br>
+
+
+                    <label class="auth" for="password">password</label></br>
+                    <input class="userName" id="password" name="password" type="password">
+
+                    <div class="remember">
+                        <div class="forgotPas">
+
+                            <input class="checkbox" type="checkbox">
+                            <label>Remember me</label>
+                        </div>
+                        <p>Forgot Password?</p>
+                    </div>
+            </div>
+
+            <div>
+                <button class="submit" type="submit">Sign in</button>
+            </div>
+            </form>
+
+
+        </div>
+    </div>
+</section>
+</body>
+</html>

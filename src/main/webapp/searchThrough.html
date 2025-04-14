@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Search Content</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #search-searchResults { margin-top: 20px; }
+        .result { padding: 10px; border-bottom: 1px solid #ddd; }
+        .no-results { color: red; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Search for Transcript Content</h1>
+
+<form action="javascript:void(0);" onsubmit="searchContent()">
+    <input id="search-searchQuery" placeholder="Search for content..." required type="text">
+    <button type="submit">Search</button>
+</form>
+
+<div id="search-searchResults"></div>
+
+<div class="modal" id="search-videoModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <video controls height="400" id="search-modalVideo" width="600">
+            <source id="search-modalSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<script>
+    function searchContent() {
+        var searchQuery = document.getElementById('search-searchQuery').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'SearchServlet', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                document.getElementById('search-searchResults').innerHTML = xhr.responseText;
+            } else {
+                document.getElementById('search-searchResults').innerHTML = "<p class='no-results'>Error fetching results. Please try again later.</p>";
+            }
+        };
+
+        xhr.send('searchQuery=' + encodeURIComponent(searchQuery));
+    }
+
+    function openModal(videoUrl, startTime) {
+        var modal = document.getElementById("search-videoModal");
+        var modalSource = document.getElementById("search-modalSource");
+        var modalVideo = document.getElementById("search-modalVideo");
+
+        modalSource.src = videoUrl;
+        modalVideo.load();
+        modal.style.display = "block";
+
+        modalVideo.currentTime = startTime;
+        modalVideo.play();
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("search-videoModal");
+        modal.style.display = "none";
+        var modalVideo = document.getElementById("search-modalVideo");
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+    }
+</script>
+</body>
+</html>

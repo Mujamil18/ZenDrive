@@ -1,0 +1,8 @@
+{
+    "access_token": "1000.f0628ffef0b733c95d50a1e8de4d8caa.9e58bd1036522f6aae08f5ac6552a9aa",
+    "scope": "WorkDrive.files.ALL WorkDrive.users.READ WorkDrive.team.ALL WorkDrive.members.READ WorkDrive.organization.READ WorkDrive.teamfolders.READ WorkDrive.files.READ ZohoFiles.files.READ WorkDrive.files.sharing.CREATE WorkDrive.files.CREATE WorkDrive.files.UPDATE WorkDrive.files.DELETE WorkDrive.team.READ WorkDrive.workspace.CREATE WorkDrive.workspace.UPDATE WorkDrive.workspace.DELETE ZohoSearch.securesearch.READ",
+    "api_domain": "https://www.zohoapis.com",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "timestamp": "2025-03-13T09:39:31.562+0530"
+}
